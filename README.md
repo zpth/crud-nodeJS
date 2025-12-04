@@ -22,4 +22,4 @@ Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
 * **Método:** `GET`
 * **Respuesta Exitosa (200 OK):**
 
-![Image](https://github.com/user-attachments/assets/e6a38fd1-404c-43be-bae9-3e1188a5156f)
+![Image](https://github.com/user-attachments/assets/619e35d0-caa2-4b94-a683-c424fe834f0b)
