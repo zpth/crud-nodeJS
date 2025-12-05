@@ -23,3 +23,30 @@ Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
 * **Respuesta Exitosa (200 OK):**
 
 ![Image](https://github.com/user-attachments/assets/4d447271-0bc2-46a4-a76f-33f76034ac2a)
+
+### 2. Solicitud POST
+Registra un nuevo incidente.
+
+* **Endpoint:** `/incidentes`
+* **Método:** `POST`
+* **Header:** `Content-Type: application/json`
+
+![Image](https://github.com/user-attachments/assets/33d833c3-3dbf-4ec0-ac87-11ebcdb3700d)
+
+### 3. Solicitud PUT
+Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
+
+* **Endpoint:** `/incidentes`
+* **Método:** `PUT`
+* **Respuesta Exitosa (200 OK):**
+
+![Image](https://github.com/user-attachments/assets/4d447271-0bc2-46a4-a76f-33f76034ac2a)
+
+### 4. Solicitud DELETE
+Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
+
+* **Endpoint:** `/incidentes`
+* **Método:** `DELETE`
+* **Respuesta Exitosa (200 OK):**
+
+![Image](https://github.com/user-attachments/assets/4d447271-0bc2-46a4-a76f-33f76034ac2a)
