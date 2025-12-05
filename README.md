@@ -43,10 +43,10 @@ Actualiza los datos de un incidente.
 ![Image](https://github.com/user-attachments/assets/d15ab647-3ebd-4436-958b-d305fc6d0376)
 
 ### 4. Solicitud DELETE
-Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
+Elimina un incidente registrado.
 
-* **Endpoint:** `/incidentes`
+* **Endpoint:** `/incidentes/:id`
 * **Método:** `DELETE`
 * **Respuesta Exitosa (200 OK):**
 
-![Image](https://github.com/user-attachments/assets/4d447271-0bc2-46a4-a76f-33f76034ac2a)
+![Image](https://github.com/user-attachments/assets/d796fecd-96a1-47b4-9cd7-62da2fa6303e)
