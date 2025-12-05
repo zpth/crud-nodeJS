@@ -34,9 +34,9 @@ Registra un nuevo incidente.
 ![Image](https://github.com/user-attachments/assets/33d833c3-3dbf-4ec0-ac87-11ebcdb3700d)
 
 ### 3. Solicitud PUT
-Obtiene el listado completo de amenazas detectadas, ordenadas cronológicamente.
+Actualiza los datos de un incidente.
 
-* **Endpoint:** `/incidentes`
+* **Endpoint:** `/incidentes/:id`
 * **Método:** `PUT`
 * **Respuesta Exitosa (200 OK):**
 
