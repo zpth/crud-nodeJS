@@ -5,6 +5,8 @@ En este proyecto se desarrolló un sistema web de gestión de incidentes de segu
 ![Estado](https://img.shields.io/badge/Status-Active-success)
 ![Seguridad](https://img.shields.io/badge/Security-BlueTeam-blue)
 
+![Image](https://github.com/user-attachments/assets/03ef98e6-63e3-430d-8451-19bcb961eb22)
+
 ## 🚀 Tecnologías (Tech Stack)
 
 * **Frontend:** Vanilla JavaScript (ES6+), CSS3 , HTML5 , Fetch API.
