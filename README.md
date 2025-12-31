@@ -7,7 +7,7 @@ En este proyecto se desarrolló un sistema web de gestión de incidentes de segu
 
 ![Image](https://github.com/user-attachments/assets/03ef98e6-63e3-430d-8451-19bcb961eb22)
 
-## 🚀 Tecnologías (Tech Stack)
+## 🚀 Tecnologías
 
 * **Frontend:** Vanilla JavaScript (ES6+), CSS3 , HTML5 , Fetch API.
 * **Backend:** Node.js, Express.js (REST API).
