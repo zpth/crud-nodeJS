@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Dashboard - Incidentes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛡️ SOC Incident Tracker</h1>
+
+        <div id="formulario">
+            <input type="hidden" id="id-incidente-editar">
+            
+            <div class="form-group">
+                <input type="text" id="tipo" placeholder="Tipo de Ataque ">
+            </div>
+            
+            <div class="form-group">
+                <input type="text" id="ip_origen" placeholder="IP Origen">
+            </div>
+
+            <div class="form-group">
+                <select id="criticidad" style="height: 36px; padding: 0 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <option value="" disabled selected>Criticidad</option>
+                    <option value="Baja">🟢 Baja</option>
+                    <option value="Media">🟡 Media</option>
+                    <option value="Alta">🔴 Alta</option>
+                    <option value="Critica">🔥 Crítica</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="fecha">
+            </div>
+
+            <div class="form-group">
+                <select id="estado" style="height: 36px; padding: 0 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <option value="Abierto">Abierto</option>
+                    <option value="Investigando">Investigando</option>
+                    <option value="Mitigado">Mitigado</option>
+                    <option value="Cerrado">Cerrado</option>
+                </select>
+            </div>
+
+            <button id="btn-accion" onclick="manejarEnvio()">Registrar</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo de Incidente</th>
+                    <th>IP Origen</th>
+                    <th>Criticidad</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-incidentes">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+       
+        const API_URL = 'http://localhost:3000/incidentes';
+        let editando = false;
+
+        // Función para formatear la fecha 
+        const formatearFecha = (fechaISO) => {
+            const fecha = new Date(fechaISO);
+            return fecha.toISOString().split('T')[0];
+        }
+
+        async function cargarIncidentes() {// SOLICITUD GET
+            const response = await fetch(API_URL);
+            const incidentes = await response.json();
+            
+            const tbody = document.getElementById('tabla-incidentes');
+            tbody.innerHTML = ''; 
+
+            incidentes.forEach(inc => {
+                // Colores para la criticidad
+                let colorCriticidad = '#334155';
+                if(inc.criticidad === 'Alta') colorCriticidad = '#dc2626'; // Rojo
+                if(inc.criticidad === 'Media') colorCriticidad = '#d97706'; // Naranja
+
+                const fechaFormateada = formatearFecha(inc.fecha);
+
+                const fila = `
+                    <tr>
+                        <td>${inc.id}</td>
+                        <td style="font-weight:bold">${inc.tipo}</td>
+                        <td style="font-family:monospace">${inc.ip_origen}</td>
+                        <td style="color:${colorCriticidad}; font-weight:bold">${inc.criticidad}</td>
+                        <td>${fechaFormateada}</td>
+                        <td><span class="badge">${inc.estado}</span></td>
+                        <td>
+                            <button class="btn-editar" onclick="llenarFormulario(${inc.id}, '${inc.tipo}', '${inc.ip_origen}', '${inc.criticidad}', '${fechaFormateada}', '${inc.estado}')">✏️</button>
+                            <button class="btn-borrar" onclick="eliminarIncidente(${inc.id})">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += fila;
+            });
+        }
+
+        async function eliminarIncidente(id) {// SOLICITUD DELETE
+            if (!confirm('¿Eliminar registro del SOC?')) return;
+            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            cargarIncidentes();
+        }
+
+        function llenarFormulario(id, tipo, ip, criticidad, fecha, estado) {
+            document.getElementById('tipo').value = tipo;
+            document.getElementById('ip_origen').value = ip;
+            document.getElementById('criticidad').value = criticidad;
+            document.getElementById('fecha').value = fecha;
+            document.getElementById('estado').value = estado;
+            document.getElementById('id-incidente-editar').value = id;
+            
+            editando = true;
+            const btn = document.getElementById('btn-accion');
+            btn.innerText = "Actualizar Caso";
+            btn.style.backgroundColor = "#2563eb"; // Azul
+        }
+
+        async function manejarEnvio() {// SOLICITUD POST Y PUT
+            const tipo = document.getElementById('tipo').value;
+            const ip_origen = document.getElementById('ip_origen').value;
+            const criticidad = document.getElementById('criticidad').value;
+            const fecha = document.getElementById('fecha').value;
+            const estado = document.getElementById('estado').value;
+            const id = document.getElementById('id-incidente-editar').value;
+
+            const datos = { tipo, ip_origen, criticidad, fecha, estado };
+
+            if (editando) {
+                await fetch(`${API_URL}/${id}`, {// SOLICTUD PUT
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                editando = false;
+                document.getElementById('btn-accion').innerText = "Registrar";
+                document.getElementById('btn-accion').style.backgroundColor = ""; 
+            } else {
+                await fetch(API_URL, {// SOLICITUD POST
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },// Se le comunica al servidor que se le envía datos JSON
+                    body: JSON.stringify(datos)
+                });
+            }
+
+            // Limpiar
+            document.getElementById('tipo').value = '';
+            document.getElementById('ip_origen').value = '';
+            cargarIncidentes();
+        }
+
+        cargarIncidentes();
+    </script>
+</body>
+</html>
